@@ -5,47 +5,41 @@ import pyautogui
 
 class MouseRightEdgeUpDownTrigger(TriggerBase):
     """
-    鼠标移动到右侧边缘并上下移动一次，触发回调
+    鼠标移动到右侧边缘并大幅度上移时，触发回调
     """
     def __init__(self, edge_size, move_threshold, callback):
         self.edge_size = edge_size  # 右侧边缘宽度
-        self.move_threshold = move_threshold  # 上下移动的最小距离
+        self.move_threshold = move_threshold  # 上移的最小距离
         self.callback = callback
-        self._pre_y = None
-        self._state = 0  # 0:初始, 1:检测到向上, 2:检测到向下
+        self._start_y = None
+        self._triggered = False
 
-        # 获取屏幕宽度
+        # 获取屏幕尺寸
         self.screen_width, self.screen_height = pyautogui.size()
 
     def update(self, state):
         mouse_x = state['mouse_x']
         mouse_y = state['mouse_y']
 
-        # 只在鼠标位于右侧边缘时检测
+        # 只检测右侧边缘
         if mouse_x >= self.screen_width - self.edge_size:
-            if self._pre_y is None:
-                self._pre_y = mouse_y
-                self._state = 0
+            if self._start_y is None:
+                self._start_y = mouse_y
+                self._triggered = False
                 return
 
-            delta_y = mouse_y - self._pre_y
+            delta_y = mouse_y - self._start_y
 
-            if self._state == 0 and delta_y <= -self.move_threshold:
-                # 先向上
-                self._state = 1
-                self._pre_y = mouse_y
-            elif self._state == 1 and delta_y >= self.move_threshold:
-                # 再向下
-                self._state = 2
-                self._pre_y = mouse_y
+            if not self._triggered and delta_y <= -self.move_threshold:
+                self._triggered = True
                 self.on_trigger()
-            elif abs(delta_y) > 0:
-                # 更新_y，避免小抖动干扰
-                self._pre_y = mouse_y
+            elif abs(delta_y) < 5:
+                # 防止轻微抖动重复触发
+                self._triggered = False
         else:
-            self._pre_y = None
-            self._state = 0
+            self._start_y = None
+            self._triggered = False
 
     def on_trigger(self):
         self.callback()
-        print(">>> 已触发 右侧边缘上下移动 (Ctrl+W)")
+        print(">>> 已触发 右侧边缘大幅度上移 (Ctrl+W)")
