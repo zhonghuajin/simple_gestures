@@ -12,7 +12,10 @@ from triggers import (
     RightButtonDownRightTrigger,
     RightButtonDownDownLeftTrigger,
     RightButtonDownLeftUpLeftTrigger,
-    RightButtonDownLeftUpRightTrigger
+    RightButtonDownLeftUpRightTrigger,
+    BothButtonDownTrigger,
+    RightButtonDownUpTrigger,
+    RightButtonDownDownTrigger,  # 新增导入
 )
 
 # === 全局参数 ===
@@ -97,7 +100,37 @@ def send_f5():
     release_key(VK_F5)
     print(">>> 已执行 F5")
 
+def send_ctrl_t():
+    press_key(VK_CONTROL)
+    time.sleep(0.03)
+    press_key(0x54)  # T
+    time.sleep(0.05)
+    release_key(0x54)
+    release_key(VK_CONTROL)
+    print(">>> 已执行 Ctrl + T")
+
+def send_ctrl_c():
+    press_key(VK_CONTROL)
+    time.sleep(0.03)
+    press_key(0x43)  # C
+    time.sleep(0.05)
+    release_key(0x43)
+    release_key(VK_CONTROL)
+    print(">>> 已执行 Ctrl + C")
+
+def send_ctrl_v():
+    press_key(VK_CONTROL)
+    time.sleep(0.03)
+    press_key(0x56)  # V
+    time.sleep(0.05)
+    release_key(0x56)
+    release_key(VK_CONTROL)
+    print(">>> 已执行 Ctrl + V")
+
 # === 输入状态收集 ===
+def is_left_button_down():
+    return win32api.GetAsyncKeyState(win32con.VK_LBUTTON) < 0
+
 def is_right_button_down():
     return win32api.GetAsyncKeyState(win32con.VK_RBUTTON) < 0
 
@@ -115,6 +148,9 @@ def main():
         RightButtonDownDownLeftTrigger(MOVE_MIN_DIST, send_ctrl_w),  # 下→左 Ctrl+W
         RightButtonDownLeftUpLeftTrigger(MOVE_MIN_DIST, send_ctrl_shift_n),  # 左→上→左 Ctrl+Shift+N
         RightButtonDownLeftUpRightTrigger(MOVE_MIN_DIST, send_f5),  # 左→上→右 F5
+        BothButtonDownTrigger(send_ctrl_t),  # 同时按下左右键 Ctrl+T
+        RightButtonDownUpTrigger(MOVE_MIN_DIST, send_ctrl_c),  # 右键向上 Ctrl+C
+        RightButtonDownDownTrigger(MOVE_MIN_DIST, send_ctrl_v),  # 右键向下 Ctrl+V
     ]
 
     try:
@@ -124,7 +160,7 @@ def main():
                 'mouse_x': x,
                 'mouse_y': y,
                 'right_button': is_right_button_down(),
-                # 可继续扩展更多输入状态
+                'left_button': is_left_button_down(),
             }
             for trigger in triggers:
                 trigger.update(input_state)
