@@ -7,15 +7,8 @@ import win32con
 
 # 导入拆分后的触发器类
 from triggers import (
-    RightButtonDownUpDownTrigger,
     MouseCornerTrigger,
-    RightButtonDownRightTrigger,
-    RightButtonDownDownLeftTrigger,
-    RightButtonDownLeftUpLeftTrigger,
-    RightButtonDownLeftUpRightTrigger,
-    BothButtonDownTrigger,
-    RightButtonDownUpTrigger,
-    RightButtonDownDownTrigger,  # 新增导入
+    MouseRightEdgeUpDownTrigger, 
 )
 
 # === 全局参数 ===
@@ -142,15 +135,8 @@ def main():
     print("=== 脚本已启动 (模块化版本) ===")
 
     triggers = [
-        RightButtonDownUpDownTrigger(MOVE_MIN_DIST, send_ctrl_shift_backtick),
         MouseCornerTrigger(CORNER_SIZE, send_alt_tab),
-        RightButtonDownRightTrigger(MOVE_MIN_DIST, send_alt_f4),  # 下→右 Alt+F4
-        RightButtonDownDownLeftTrigger(MOVE_MIN_DIST, send_ctrl_w),  # 下→左 Ctrl+W
-        RightButtonDownLeftUpLeftTrigger(MOVE_MIN_DIST, send_ctrl_shift_n),  # 左→上→左 Ctrl+Shift+N
-        RightButtonDownLeftUpRightTrigger(MOVE_MIN_DIST, send_f5),  # 左→上→右 F5
-        BothButtonDownTrigger(send_ctrl_t),  # 同时按下左右键 Ctrl+T
-        RightButtonDownUpTrigger(MOVE_MIN_DIST, send_ctrl_c),  # 右键向上 Ctrl+C
-        RightButtonDownDownTrigger(MOVE_MIN_DIST, send_ctrl_v),  # 右键向下 Ctrl+V
+         MouseRightEdgeUpDownTrigger(edge_size=5, move_threshold=30, callback=send_ctrl_w),
     ]
 
     try:

@@ -1,11 +1,4 @@
 # triggers/__init__.py
 from .trigger_base import TriggerBase
 from .mouse_corner_trigger import MouseCornerTrigger
-from .right_button_down_up_down_trigger import RightButtonDownUpDownTrigger
-from .right_button_down_right_trigger import RightButtonDownRightTrigger
-from .right_button_down_down_left_trigger import RightButtonDownDownLeftTrigger
-from .right_button_down_left_up_left_trigger import RightButtonDownLeftUpLeftTrigger
-from .right_button_down_left_up_right_trigger import RightButtonDownLeftUpRightTrigger
-from .both_button_down_trigger import BothButtonDownTrigger
-from .right_button_down_up_trigger import RightButtonDownUpTrigger
-from .right_button_down_down_trigger import RightButtonDownDownTrigger
+from .mouse_right_edge_updown_trigger import MouseRightEdgeUpDownTrigger 
