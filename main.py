@@ -13,6 +13,7 @@ from triggers import (
     MouseDownUpTrigger,
     BothButtonDownTrigger,
     MouseDownRightOrLeftTrigger,
+    MouseLeftUpDownUpTrigger,
 )
 
 # === 全局参数 ===
@@ -176,6 +177,9 @@ def main():
             min_side=200,
             callback_right=send_ctrl_w,
             callback_left=send_alt_f4,
+        ),
+        MouseLeftUpDownUpTrigger(
+            min_move=30, max_time=1.0, callback=send_ctrl_shift_backtick
         ),
     ]
 

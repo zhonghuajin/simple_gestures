@@ -5,3 +5,4 @@ from .mouse_left_edge_horizontal_trigger import MouseLeftEdgeHorizontalTrigger
 from .mouse_down_up_trigger import MouseDownUpTrigger 
 from .both_button_down_trigger import BothButtonDownTrigger
 from .mouse_down_right_or_left_trigger import MouseDownRightOrLeftTrigger
+from .mouse_left_up_down_up_trigger import MouseLeftUpDownUpTrigger
