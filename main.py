@@ -9,7 +9,7 @@ import webbrowser
 # 导入拆分后的触发器类
 from triggers import (
     MouseCornerTrigger,
-    MouseRightEdgeHorizontalTrigger,
+    MouseLeftEdgeHorizontalTrigger,
     MouseDownUpTrigger,
     BothButtonDownTrigger,
     MouseDownRightOrLeftTrigger,
@@ -165,15 +165,15 @@ def main():
 
     triggers = [
         MouseCornerTrigger(CORNER_SIZE, send_alt_tab),
-        MouseRightEdgeHorizontalTrigger(
+        MouseLeftEdgeHorizontalTrigger(
             edge_size=5, move_threshold=300, direction='up', callback=send_ctrl_c),
-        MouseRightEdgeHorizontalTrigger(
+        MouseLeftEdgeHorizontalTrigger(
             edge_size=5, move_threshold=300, direction='down', callback=send_ctrl_v),
-        MouseDownUpTrigger(min_move=60, max_time=1.2, callback=open_chrome),
+        MouseDownUpTrigger(min_move=200, max_time=1.2, callback=open_chrome),
         BothButtonDownTrigger(send_ctrl_t),
         MouseDownRightOrLeftTrigger(
-            min_down=40,
-            min_side=40,
+            min_down=200,
+            min_side=200,
             callback_right=send_ctrl_w,
             callback_left=send_alt_f4,
         ),

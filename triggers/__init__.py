@@ -1,7 +1,7 @@
 # triggers/__init__.py
 from .trigger_base import TriggerBase
 from .mouse_corner_trigger import MouseCornerTrigger
-from .mouse_right_edge_horizontal_trigger import MouseRightEdgeHorizontalTrigger
+from .mouse_left_edge_horizontal_trigger import MouseLeftEdgeHorizontalTrigger
 from .mouse_down_up_trigger import MouseDownUpTrigger 
 from .both_button_down_trigger import BothButtonDownTrigger
 from .mouse_down_right_or_left_trigger import MouseDownRightOrLeftTrigger
