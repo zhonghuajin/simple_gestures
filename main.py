@@ -213,9 +213,11 @@ def main():
         ),
         MouseBottomEdgeZigzagTrigger(
             edge_size=5,
-            min_zigzag_dist=300,
+            min_zigzag_dist=150,
             max_interval=1.2,
-            callback=open_hkt_command_file
+            side_width_ratio=0.3,  # 左右各30%为判定区域
+            callback_left=open_hkt_command_file,
+            callback_right=open_temp_folder
         ),
     ]
 
