@@ -15,7 +15,6 @@ from triggers import (
     BothButtonDownTrigger,
     MouseDownRightOrLeftTrigger,
     MouseLeftUpDownUpTrigger,
-    MouseLeftDownLeftRightTrigger,
 )
 
 # === 全局参数 ===
@@ -193,12 +192,6 @@ def main():
         ),
         MouseLeftUpDownUpTrigger(
             min_move=30, max_time=1.0, callback=send_ctrl_shift_backtick
-        ),
-        MouseLeftDownLeftRightTrigger(
-            min_move=100,
-            max_time=1.2,
-            callback_left=open_temp_folder,
-            callback_right=open_hkt_command_file
         ),
     ]
 
