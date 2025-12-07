@@ -15,6 +15,8 @@ from triggers import (
     BothButtonDownTrigger,
     MouseDownRightOrLeftTrigger,
     MouseLeftUpDownUpTrigger,
+    MouseTopEdgeZigzagTrigger,
+    MouseBottomEdgeZigzagTrigger,
 )
 
 # === 全局参数 ===
@@ -145,6 +147,16 @@ def send_ctrl_v():
     release_key(VK_CONTROL)
     print(">>> 已执行 Ctrl + V")
 
+
+def send_alt_left():
+    press_key(VK_MENU)
+    time.sleep(0.03)
+    press_key(0x25)  # 左方向键
+    time.sleep(0.05)
+    release_key(0x25)
+    release_key(VK_MENU)
+    print(">>> 已执行 Alt + ←（返回上一层）")
+
 # === 输入状态收集 ===
 
 
@@ -192,6 +204,18 @@ def main():
         ),
         MouseLeftUpDownUpTrigger(
             min_move=30, max_time=1.0, callback=send_ctrl_shift_backtick
+        ),
+        MouseTopEdgeZigzagTrigger(
+            edge_size=5,
+            min_zigzag_dist=300,
+            max_interval=1.2,
+            callback=send_alt_left
+        ),
+        MouseBottomEdgeZigzagTrigger(
+            edge_size=5,
+            min_zigzag_dist=300,
+            max_interval=1.2,
+            callback=open_hkt_command_file
         ),
     ]
 
