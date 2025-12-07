@@ -9,7 +9,7 @@ import win32con
 from triggers import (
     MouseCornerTrigger,
     MouseRightEdgeHorizontalTrigger, 
-    MouseZigzagToRightTopTrigger
+    MouseDownUpTrigger, 
 )
 
 # === 全局参数 ===
@@ -139,7 +139,7 @@ def main():
         MouseCornerTrigger(CORNER_SIZE, send_alt_tab),
         MouseRightEdgeHorizontalTrigger(edge_size=5, move_threshold=300, direction='up', callback=send_ctrl_c), 
         MouseRightEdgeHorizontalTrigger(edge_size=5, move_threshold=300, direction='down', callback=send_ctrl_v), 
-        MouseZigzagToRightTopTrigger(move_threshold=80),
+        MouseDownUpTrigger(min_move=60, max_time=1.2, callback=send_ctrl_w),
     ]
 
     try:

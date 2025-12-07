@@ -1,5 +1,5 @@
 # triggers/__init__.py
 from .trigger_base import TriggerBase
 from .mouse_corner_trigger import MouseCornerTrigger
-from .mouse_right_edge_horizontal_trigger import MouseRightEdgeHorizontalTrigger 
-from .mouse_zigzag_to_right_top_trigger import MouseZigzagToRightTopTrigger
+from .mouse_right_edge_horizontal_trigger import MouseRightEdgeHorizontalTrigger
+from .mouse_down_up_trigger import MouseDownUpTrigger 
