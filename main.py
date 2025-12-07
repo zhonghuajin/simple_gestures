@@ -8,8 +8,8 @@ import win32con
 # 导入拆分后的触发器类
 from triggers import (
     MouseCornerTrigger,
-    MouseRightEdgeUpDownTrigger, 
-    MouseTopEdgeHorizontalTrigger, 
+    MouseRightEdgeHorizontalTrigger, 
+    MouseZigzagToRightTopTrigger
 )
 
 # === 全局参数 ===
@@ -137,9 +137,9 @@ def main():
 
     triggers = [
         MouseCornerTrigger(CORNER_SIZE, send_alt_tab),
-        MouseRightEdgeUpDownTrigger(edge_size=5, move_threshold=500, callback=send_ctrl_w), 
-        MouseTopEdgeHorizontalTrigger(edge_size=5, move_threshold=300, direction='right', callback=send_ctrl_c), 
-        MouseTopEdgeHorizontalTrigger(edge_size=5, move_threshold=300, direction='left', callback=send_ctrl_v), 
+        MouseRightEdgeHorizontalTrigger(edge_size=5, move_threshold=300, direction='up', callback=send_ctrl_c), 
+        MouseRightEdgeHorizontalTrigger(edge_size=5, move_threshold=300, direction='down', callback=send_ctrl_v), 
+        MouseZigzagToRightTopTrigger(move_threshold=80),
     ]
 
     try:
