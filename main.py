@@ -9,8 +9,10 @@ import webbrowser
 # 导入拆分后的触发器类
 from triggers import (
     MouseCornerTrigger,
-    MouseRightEdgeHorizontalTrigger, 
-    MouseDownUpTrigger, 
+    MouseRightEdgeHorizontalTrigger,
+    MouseDownUpTrigger,
+    BothButtonDownTrigger,
+    MouseDownRightOrLeftTrigger,
 )
 
 # === 全局参数 ===
@@ -31,19 +33,24 @@ VK_N = 0x4E
 VK_F5 = 0x74
 KEYEVENTF_KEYUP = 0x0002
 
+
 def press_key(hexKeyCode):
     user32.keybd_event(hexKeyCode, 0, 0, 0)
+
 
 def release_key(hexKeyCode):
     user32.keybd_event(hexKeyCode, 0, KEYEVENTF_KEYUP, 0)
 
 # === 打开文件  ===
 
+
 def open_chrome():
     webbrowser.open('C:\Program Files\Google\Chrome\Application\chrome.exe')
     print(">>> 已打开 Chrome 浏览器")
 
 # === 组合键封装 ===
+
+
 def send_ctrl_shift_backtick():
     press_key(VK_CONTROL)
     time.sleep(0.03)
@@ -56,6 +63,7 @@ def send_ctrl_shift_backtick():
     release_key(VK_CONTROL)
     print(">>> 已执行 Ctrl + Shift + `")
 
+
 def send_alt_tab():
     press_key(VK_MENU)
     time.sleep(0.03)
@@ -64,6 +72,7 @@ def send_alt_tab():
     release_key(VK_TAB)
     release_key(VK_MENU)
     print(">>> 已执行 Alt + Tab")
+
 
 def send_alt_f4():
     press_key(VK_MENU)
@@ -74,6 +83,7 @@ def send_alt_f4():
     release_key(VK_MENU)
     print(">>> 已执行 Alt + F4")
 
+
 def send_ctrl_w():
     press_key(VK_CONTROL)
     time.sleep(0.03)
@@ -82,6 +92,7 @@ def send_ctrl_w():
     release_key(VK_W)
     release_key(VK_CONTROL)
     print(">>> 已执行 Ctrl + W")
+
 
 def send_ctrl_shift_n():
     press_key(VK_CONTROL)
@@ -95,11 +106,13 @@ def send_ctrl_shift_n():
     release_key(VK_CONTROL)
     print(">>> 已执行 Ctrl + Shift + N")
 
+
 def send_f5():
     press_key(VK_F5)
     time.sleep(0.05)
     release_key(VK_F5)
     print(">>> 已执行 F5")
+
 
 def send_ctrl_t():
     press_key(VK_CONTROL)
@@ -110,6 +123,7 @@ def send_ctrl_t():
     release_key(VK_CONTROL)
     print(">>> 已执行 Ctrl + T")
 
+
 def send_ctrl_c():
     press_key(VK_CONTROL)
     time.sleep(0.03)
@@ -118,6 +132,7 @@ def send_ctrl_c():
     release_key(0x43)
     release_key(VK_CONTROL)
     print(">>> 已执行 Ctrl + C")
+
 
 def send_ctrl_v():
     press_key(VK_CONTROL)
@@ -129,24 +144,39 @@ def send_ctrl_v():
     print(">>> 已执行 Ctrl + V")
 
 # === 输入状态收集 ===
+
+
 def is_left_button_down():
     return win32api.GetAsyncKeyState(win32con.VK_LBUTTON) < 0
 
+
 def is_right_button_down():
     return win32api.GetAsyncKeyState(win32con.VK_RBUTTON) < 0
+
 
 def get_mouse_position():
     return pyautogui.position()
 
 # === 主程序 ===
+
+
 def main():
     print("=== 脚本已启动 (模块化版本) ===")
 
     triggers = [
         MouseCornerTrigger(CORNER_SIZE, send_alt_tab),
-        MouseRightEdgeHorizontalTrigger(edge_size=5, move_threshold=300, direction='up', callback=send_ctrl_c), 
-        MouseRightEdgeHorizontalTrigger(edge_size=5, move_threshold=300, direction='down', callback=send_ctrl_v), 
+        MouseRightEdgeHorizontalTrigger(
+            edge_size=5, move_threshold=300, direction='up', callback=send_ctrl_c),
+        MouseRightEdgeHorizontalTrigger(
+            edge_size=5, move_threshold=300, direction='down', callback=send_ctrl_v),
         MouseDownUpTrigger(min_move=60, max_time=1.2, callback=open_chrome),
+        BothButtonDownTrigger(send_ctrl_t),
+        MouseDownRightOrLeftTrigger(
+            min_down=40,
+            min_side=40,
+            callback_right=send_ctrl_w,
+            callback_left=send_alt_f4,
+        ),
     ]
 
     try:
@@ -164,6 +194,7 @@ def main():
 
     except KeyboardInterrupt:
         print("\n程序已停止。")
+
 
 if __name__ == "__main__":
     main()
