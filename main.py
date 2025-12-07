@@ -4,6 +4,7 @@ import time
 import ctypes
 import win32api
 import win32con
+import webbrowser
 
 # 导入拆分后的触发器类
 from triggers import (
@@ -35,6 +36,12 @@ def press_key(hexKeyCode):
 
 def release_key(hexKeyCode):
     user32.keybd_event(hexKeyCode, 0, KEYEVENTF_KEYUP, 0)
+
+# === 打开文件  ===
+
+def open_chrome():
+    webbrowser.open('C:\Program Files\Google\Chrome\Application\chrome.exe')
+    print(">>> 已打开 Chrome 浏览器")
 
 # === 组合键封装 ===
 def send_ctrl_shift_backtick():
@@ -139,7 +146,7 @@ def main():
         MouseCornerTrigger(CORNER_SIZE, send_alt_tab),
         MouseRightEdgeHorizontalTrigger(edge_size=5, move_threshold=300, direction='up', callback=send_ctrl_c), 
         MouseRightEdgeHorizontalTrigger(edge_size=5, move_threshold=300, direction='down', callback=send_ctrl_v), 
-        MouseDownUpTrigger(min_move=60, max_time=1.2, callback=send_ctrl_w),
+        MouseDownUpTrigger(min_move=60, max_time=1.2, callback=open_chrome),
     ]
 
     try:
