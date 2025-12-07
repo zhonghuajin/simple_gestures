@@ -5,6 +5,7 @@ import ctypes
 import win32api
 import win32con
 import webbrowser
+import os
 
 # 导入拆分后的触发器类
 from triggers import (
@@ -14,6 +15,7 @@ from triggers import (
     BothButtonDownTrigger,
     MouseDownRightOrLeftTrigger,
     MouseLeftUpDownUpTrigger,
+    MouseLeftDownLeftRightTrigger,
 )
 
 # === 全局参数 ===
@@ -158,6 +160,17 @@ def is_right_button_down():
 def get_mouse_position():
     return pyautogui.position()
 
+
+def open_temp_folder():
+    os.startfile(r'c:\\temp')
+    print(">>> 已打开 c:\\temp 文件夹")
+
+
+def open_hkt_command_file():
+    os.startfile(
+        r'C:\\Users\\admin\\Documents\\BaiduSyncdisk\\思维\\HKT\\常用命令.txt')
+    print(">>> 已打开 HKT 常用命令.txt")
+
 # === 主程序 ===
 
 
@@ -180,6 +193,12 @@ def main():
         ),
         MouseLeftUpDownUpTrigger(
             min_move=30, max_time=1.0, callback=send_ctrl_shift_backtick
+        ),
+        MouseLeftDownLeftRightTrigger(
+            min_move=100,
+            max_time=1.2,
+            callback_left=open_temp_folder,
+            callback_right=open_hkt_command_file
         ),
     ]
 
