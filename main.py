@@ -238,9 +238,10 @@ def main():
         ),
         MouseTopEdgeZigzagTrigger(
             edge_size=2,
-            min_zigzag_dist=600,
+            min_move_dist=500,
             max_interval=1.2,
-            callback=send_alt_left
+            callback_left=send_alt_left,
+            callback_right=send_f5
         ),
         MouseBottomEdgeZigzagTrigger(
             edge_size=5,
