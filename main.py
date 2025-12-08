@@ -17,6 +17,7 @@ from triggers import (
     MouseLeftUpDownUpTrigger,
     MouseTopEdgeZigzagTrigger,
     MouseBottomEdgeZigzagTrigger,
+    MouseLeftBottomCornerTrigger
 )
 
 # === 全局参数 ===
@@ -36,7 +37,13 @@ VK_W = 0x57
 VK_N = 0x4E
 VK_F5 = 0x74
 KEYEVENTF_KEYUP = 0x0002
+VK_LWIN = 0x5B
 
+def send_win_key():
+    press_key(VK_LWIN)
+    time.sleep(0.08)
+    release_key(VK_LWIN)
+    print(">>> 已执行 Win 键")
 
 def press_key(hexKeyCode):
     user32.keybd_event(hexKeyCode, 0, 0, 0)
@@ -206,8 +213,8 @@ def main():
             min_move=30, max_time=1.0, callback=send_ctrl_shift_backtick
         ),
         MouseTopEdgeZigzagTrigger(
-            edge_size=5,
-            min_zigzag_dist=300,
+            edge_size=2,
+            min_zigzag_dist=600,
             max_interval=1.2,
             callback=send_alt_left
         ),
@@ -219,6 +226,7 @@ def main():
             callback_left=open_hkt_command_file,
             callback_right=open_temp_folder
         ),
+        MouseLeftBottomCornerTrigger(CORNER_SIZE, send_win_key),
     ]
 
     try:
