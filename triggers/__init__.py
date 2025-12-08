@@ -9,3 +9,4 @@ from .mouse_left_up_down_up_trigger import MouseLeftUpDownUpTrigger
 from .mouse_top_edge_zigzag_trigger import MouseTopEdgeZigzagTrigger
 from .mouse_bottom_edge_zigzag_trigger import MouseBottomEdgeZigzagTrigger 
 from .mouse_left_bottom_corner_trigger import MouseLeftBottomCornerTrigger
+from .mouse_diagonal_to_topright_trigger import MouseDiagonalToTopRightTrigger

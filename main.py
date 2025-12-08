@@ -4,6 +4,7 @@ import time
 import ctypes
 import win32api
 import win32con
+import win32gui
 import webbrowser
 import os
 
@@ -17,7 +18,8 @@ from triggers import (
     MouseLeftUpDownUpTrigger,
     MouseTopEdgeZigzagTrigger,
     MouseBottomEdgeZigzagTrigger,
-    MouseLeftBottomCornerTrigger
+    MouseLeftBottomCornerTrigger,
+    MouseDiagonalToTopRightTrigger
 )
 
 # === 全局参数 ===
@@ -39,11 +41,13 @@ VK_F5 = 0x74
 KEYEVENTF_KEYUP = 0x0002
 VK_LWIN = 0x5B
 
+
 def send_win_key():
     press_key(VK_LWIN)
     time.sleep(0.08)
     release_key(VK_LWIN)
     print(">>> 已执行 Win 键")
+
 
 def press_key(hexKeyCode):
     user32.keybd_event(hexKeyCode, 0, 0, 0)
@@ -164,6 +168,19 @@ def send_alt_left():
     release_key(VK_MENU)
     print(">>> 已执行 Alt + ←（返回上一层）")
 
+
+def send_toggle_maximize_window():
+    hwnd = win32gui.GetForegroundWindow()
+    if hwnd != 0:
+        placement = win32gui.GetWindowPlacement(hwnd)
+        showCmd = placement[1]
+        if showCmd == win32con.SW_SHOWMAXIMIZED:
+            win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
+            print(">>> 已执行 窗口还原")
+        else:
+            win32gui.ShowWindow(hwnd, win32con.SW_MAXIMIZE)
+            print(">>> 已执行 窗口最大化")
+
 # === 输入状态收集 ===
 
 
@@ -227,6 +244,12 @@ def main():
             callback_right=open_temp_folder
         ),
         MouseLeftBottomCornerTrigger(CORNER_SIZE, send_win_key),
+        MouseDiagonalToTopRightTrigger(
+            corner_size=10,         # 右上角判定区域
+            min_dist=600,           # 移动距离阈值（可根据分辨率调整）
+            max_time=1.5,           # 必须在多长时间内完成
+            callback=send_toggle_maximize_window,
+        ),
     ]
 
     try:
