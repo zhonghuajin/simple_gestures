@@ -138,6 +138,13 @@ def send_ctrl_t():
     release_key(VK_CONTROL)
     print(">>> 已执行 Ctrl + T")
 
+    # 再模拟按一次 Esc 键
+    time.sleep(0.1)
+    press_key(0x1B)  # Esc
+    time.sleep(0.03)
+    release_key(0x1B)
+    print(">>> 已执行 Esc")
+
 
 def send_ctrl_c():
     press_key(VK_CONTROL)
