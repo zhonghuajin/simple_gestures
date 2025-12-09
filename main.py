@@ -19,7 +19,8 @@ from triggers import (
     MouseTopEdgeZigzagTrigger,
     MouseBottomEdgeZigzagTrigger,
     MouseLeftBottomCornerTrigger,
-    MouseDiagonalToTopRightTrigger
+    MouseDiagonalToTopRightTrigger,
+    MouseDownLeftTrigger
 )
 
 # === 全局参数 ===
@@ -188,6 +189,15 @@ def send_toggle_maximize_window():
             win32gui.ShowWindow(hwnd, win32con.SW_MAXIMIZE)
             print(">>> 已执行 窗口最大化")
 
+
+def send_alt_f4_then_esc():
+    send_alt_f4()
+    time.sleep(0.1)
+    press_key(0x1B)  # Esc
+    time.sleep(0.03)
+    release_key(0x1B)
+    print(">>> 已执行 Esc (延迟 0.1 秒)")
+
 # === 输入状态收集 ===
 
 
@@ -257,6 +267,12 @@ def main():
             min_dist=600,           # 移动距离阈值（可根据分辨率调整）
             max_time=1.5,           # 必须在多长时间内完成
             callback=send_toggle_maximize_window,
+        ),
+        MouseDownLeftTrigger(
+            min_down=100,       # 向下移动至少100像素
+            min_left=100,       # 向左移动至少100像素
+            max_time=1.0,       # 1秒内完成
+            callback=send_alt_f4_then_esc
         ),
     ]
 
