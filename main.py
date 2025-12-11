@@ -255,7 +255,7 @@ def main():
         ),
         MouseBottomEdgeZigzagTrigger(
             edge_size=5,
-            min_zigzag_dist=150,
+            min_zigzag_dist=600,
             max_interval=1.2,
             side_width_ratio=0.3,  # 左右各30%为判定区域
             callback_left=open_hkt_command_file,
@@ -269,8 +269,8 @@ def main():
             callback=send_toggle_maximize_window,
         ),
         MouseDownLeftTrigger(
-            min_down=100,       # 向下移动至少100像素
-            min_left=100,       # 向左移动至少100像素
+            min_down=300,       # 向下移动至少100像素
+            min_left=300,       # 向左移动至少100像素
             max_time=1.0,       # 1秒内完成
             callback=send_alt_f4_then_esc
         ),
