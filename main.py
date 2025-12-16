@@ -21,7 +21,8 @@ from triggers import (
     MouseDiagonalToTopRightTrigger,
     MouseDownLeftTrigger,
     DoubleClickDownUpLeftTrigger,
-    DoubleClickDownRightTrigger
+    DoubleClickDownRightTrigger,
+    DoubleClickDownLeftTrigger
 )
 
 # === 全局参数 ===
@@ -315,6 +316,12 @@ def main():
             gesture_timeout=1.2,            # 手势完成最大允许时长，秒
             min_move=500,                    # 每段最小趋势位移像素
             callback=send_ctrl_w            # 触发回调
+        ),
+        DoubleClickDownLeftTrigger(
+            max_double_click_interval=0.4,  # 双击最大间隔，秒
+            gesture_timeout=1.2,            # 手势完成最大允许时长，秒
+            min_move=500,                    # 每段最小趋势位移像素
+            callback=send_alt_f4            # 触发回调
         ),
     ]
 
