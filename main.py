@@ -20,7 +20,8 @@ from triggers import (
     MouseLeftBottomCornerTrigger,
     MouseDiagonalToTopRightTrigger,
     MouseDownLeftTrigger,
-    DoubleClickDownUpLeftTrigger
+    DoubleClickDownUpLeftTrigger,
+    DoubleClickDownRightTrigger
 )
 
 # === 全局参数 ===
@@ -306,8 +307,14 @@ def main():
         DoubleClickDownUpLeftTrigger(
             max_double_click_interval=0.4,  # 两次点击最大间隔
             gesture_timeout=1.2,            # 手势最大时长
-            min_move=80,                    # 每段最小像素
+            min_move=500,                    # 每段最小像素
             callback=open_vscode
+        ),
+        DoubleClickDownRightTrigger(
+            max_double_click_interval=0.4,  # 双击最大间隔，秒
+            gesture_timeout=1.2,            # 手势完成最大允许时长，秒
+            min_move=500,                    # 每段最小趋势位移像素
+            callback=send_ctrl_w            # 触发回调
         ),
     ]
 
