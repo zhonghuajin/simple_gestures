@@ -1,15 +1,32 @@
 import time
 from .trigger_base import TriggerBase
 
+
+def get_screen_height():
+    try:
+        import tkinter as tk
+        root = tk.Tk()
+        root.withdraw()
+        height = root.winfo_screenheight()
+        root.destroy()
+        return height
+    except Exception as e:
+        print("获取屏幕高度失败，使用默认1080:", e)
+        return 1080
+
+
 class DoubleClickDownRightTrigger(TriggerBase):
     """
-    触发条件：连续两次左键点击（双击）后，鼠标整体趋势先向下再向右移动，每段只要位移趋势达标即可，不要求直线。
+    触发条件：连续两次左键点击（双击）后，鼠标整体趋势先向下再向右移动，
+    只有在判定向右动作时，鼠标y坐标需在屏幕下半部分。
+    每段只要位移趋势达标即可，不要求直线。
     参数：
         - max_double_click_interval: 两次点击最大间隔（秒）
         - gesture_timeout: 手势完成最大允许时长（秒）
         - min_move: 每段最小趋势位移像素
         - callback: 触发回调
     """
+
     def __init__(
         self,
         max_double_click_interval=0.4,
@@ -22,6 +39,8 @@ class DoubleClickDownRightTrigger(TriggerBase):
         self.min_move = min_move
         self.callback = callback
 
+        self.screen_height = get_screen_height()
+
         self.click_times = []
         self.last_left_state = False
         self.gesture_stage = 0
@@ -33,6 +52,8 @@ class DoubleClickDownRightTrigger(TriggerBase):
         mouse_x = state.get('mouse_x', 0)
         mouse_y = state.get('mouse_y', 0)
         left_button = state.get('left_button', False)
+        # 优先使用state里的screen_height
+        screen_height = state.get('screen_height', self.screen_height)
         cur_time = time.time()
 
         # 1. 检测双击
@@ -71,11 +92,14 @@ class DoubleClickDownRightTrigger(TriggerBase):
                     self.gesture_stage = 2
                     self.ref_pos = (mouse_x, mouse_y)
             elif self.gesture_stage == 2:
-                # 向右趋势，x轴增加即可
-                if dx > self.min_move:
-                    print(">>> 手势2/2 向右趋势达成，全部手势完成，触发回调")
+                # 向右趋势，x轴增加即可，且此时y坐标要在屏幕下半部分
+                if dx > self.min_move and mouse_y >= screen_height // 2:
+                    print(">>> 手势2/2 向右趋势达成（且在屏幕下半部分），全部手势完成，触发回调")
                     self.gesture_stage = 0
                     self.on_trigger()
+                elif dx > self.min_move:
+                    print(">>> 手势2/2 向右趋势达成，但未在屏幕下半部分，忽略")
+                    self.gesture_stage = 0
             # 若逆向移动太多，重置
             elif abs(dx) > self.min_move * 2 or abs(dy) > self.min_move * 2:
                 print(">>> 手势方向错误，重置")
