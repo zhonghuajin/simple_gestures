@@ -1,4 +1,3 @@
-# main.py
 import pyautogui
 import time
 import ctypes
@@ -20,7 +19,8 @@ from triggers import (
     MouseBottomEdgeZigzagTrigger,
     MouseLeftBottomCornerTrigger,
     MouseDiagonalToTopRightTrigger,
-    MouseDownLeftTrigger
+    MouseDownLeftTrigger,
+    DoubleClickDownUpLeftTrigger
 )
 
 # === 全局参数 ===
@@ -63,6 +63,35 @@ def release_key(hexKeyCode):
 def open_chrome():
     webbrowser.open('C:\Program Files\Google\Chrome\Application\chrome.exe')
     print(">>> 已打开 Chrome 浏览器")
+
+# === 新增：打开 VS Code ===
+
+
+def open_vscode():
+    vscode_path = r'C:\Users\admin\AppData\Local\Programs\Microsoft VS Code\Code.exe'
+    try:
+        if os.path.exists(vscode_path):
+            os.startfile(vscode_path)
+            print(">>> 已打开 Visual Studio Code")
+        else:
+            # 如果默认路径不存在，尝试其他常见路径
+            alternative_paths = [
+                r'C:\Program Files\Microsoft VS Code\Code.exe',
+                r'C:\Program Files (x86)\Microsoft VS Code\Code.exe',
+            ]
+
+            found = False
+            for path in alternative_paths:
+                if os.path.exists(path):
+                    os.startfile(path)
+                    print(f">>> 已打开 Visual Studio Code (从 {path})")
+                    found = True
+                    break
+
+            if not found:
+                print(f">>> 错误：未找到 VS Code，请检查路径: {vscode_path}")
+    except Exception as e:
+        print(f">>> 打开 VS Code 时出错: {e}")
 
 # === 组合键封装 ===
 
@@ -255,7 +284,7 @@ def main():
         ),
         MouseBottomEdgeZigzagTrigger(
             edge_size=5,
-            min_zigzag_dist=600,
+            min_zigzag_dist=200,
             max_interval=1.2,
             side_width_ratio=0.3,  # 左右各30%为判定区域
             callback_left=open_hkt_command_file,
@@ -273,6 +302,12 @@ def main():
             min_left=300,       # 向左移动至少100像素
             max_time=1.0,       # 1秒内完成
             callback=send_alt_f4_then_esc
+        ),
+        DoubleClickDownUpLeftTrigger(
+            max_double_click_interval=0.4,  # 两次点击最大间隔
+            gesture_timeout=1.2,            # 手势最大时长
+            min_move=80,                    # 每段最小像素
+            callback=open_vscode
         ),
     ]
 
