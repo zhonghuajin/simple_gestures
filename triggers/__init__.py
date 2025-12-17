@@ -14,3 +14,5 @@ from .mouse_down_left_trigger import MouseDownLeftTrigger
 from .double_click_down_up_left_trigger import DoubleClickDownUpLeftTrigger
 from .double_click_down_right_trigger import DoubleClickDownRightTrigger
 from .double_click_down_left_trigger import DoubleClickDownLeftTrigger
+from .double_click_left_moveleft_trigger import DoubleClickLeftMoveLeftTrigger
+from .double_click_left_up_right_down_trigger import DoubleClickLeftUpRightDownTrigger

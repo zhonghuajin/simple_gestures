@@ -22,8 +22,14 @@ from triggers import (
     MouseDownLeftTrigger,
     DoubleClickDownUpLeftTrigger,
     DoubleClickDownRightTrigger,
-    DoubleClickDownLeftTrigger
+    DoubleClickDownLeftTrigger,
+    DoubleClickLeftMoveLeftTrigger,
+    DoubleClickLeftUpRightDownTrigger,
+    
 )
+
+edge_size = 5
+screen_width, screen_height = pyautogui.size()
 
 # === 全局参数 ===
 CHECK_INTERVAL = 0.03
@@ -43,6 +49,8 @@ VK_N = 0x4E
 VK_F5 = 0x74
 KEYEVENTF_KEYUP = 0x0002
 VK_LWIN = 0x5B
+VK_A = 0x41  # A键
+VK_HOME = 0x24  # Home 键
 
 
 def send_win_key():
@@ -50,6 +58,13 @@ def send_win_key():
     time.sleep(0.08)
     release_key(VK_LWIN)
     print(">>> 已执行 Win 键")
+
+
+def send_home_key():
+    press_key(VK_HOME)
+    time.sleep(0.05)
+    release_key(VK_HOME)
+    print(">>> 已执行 Home 键")
 
 
 def press_key(hexKeyCode):
@@ -197,6 +212,27 @@ def send_ctrl_v():
     release_key(VK_CONTROL)
     print(">>> 已执行 Ctrl + V")
 
+# === 新增：Ctrl + A ===
+
+
+def send_ctrl_a():
+    press_key(VK_CONTROL)
+    time.sleep(0.03)
+    press_key(VK_A)  # A
+    time.sleep(0.05)
+    release_key(VK_A)
+    release_key(VK_CONTROL)
+    print(">>> 已执行 Ctrl + A")
+
+# === 新增：Ctrl + A 然后 Ctrl + C ===
+
+
+def send_select_all_and_copy():
+    send_ctrl_a()
+    time.sleep(0.1)  # 稍微等待全选完成
+    send_ctrl_c()
+    print(">>> 已执行 全选并复制")
+
 
 def send_alt_left():
     press_key(VK_MENU)
@@ -228,6 +264,22 @@ def send_alt_f4_then_esc():
     time.sleep(0.03)
     release_key(0x1B)
     print(">>> 已执行 Esc (延迟 0.1 秒)")
+
+
+def send_ctrl_z():
+    press_key(VK_CONTROL)
+    time.sleep(0.03)
+    press_key(0x5A)  # Z
+    time.sleep(0.05)
+    release_key(0x5A)
+    release_key(VK_CONTROL)
+    print(">>> 已执行 Ctrl + Z")
+
+def send_delete_key():
+    press_key(0x2E)  # Delete 键的虚拟码
+    time.sleep(0.03)
+    release_key(0x2E)
+    print(">>> 已执行 Delete 键")
 
 # === 输入状态收集 ===
 
@@ -322,6 +374,18 @@ def main():
             gesture_timeout=1.2,            # 手势完成最大允许时长，秒
             min_move=500,                    # 每段最小趋势位移像素
             callback=send_alt_f4            # 触发回调
+        ),
+        DoubleClickLeftUpRightDownTrigger(
+            max_double_click_interval=0.4,
+            gesture_timeout=2.0,            # 画框动作较长，给2秒时间
+            min_move=300,                   # 每个方向至少移动150像素
+            callback=send_select_all_and_copy
+        ),
+        DoubleClickLeftMoveLeftTrigger(
+            max_double_click_interval=0.4,
+            gesture_timeout=1.2,
+            min_left_move=1000,
+            callback=send_home_key
         ),
     ]
 
