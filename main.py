@@ -25,7 +25,8 @@ from triggers import (
     DoubleClickDownLeftTrigger,
     DoubleClickLeftMoveLeftTrigger,
     DoubleClickLeftUpRightDownTrigger,
-    DoubleClickDownUpTrigger, # Added import
+    DoubleClickDownUpTrigger, 
+    MouseTripleClickTrigger, # Added import
 )
 
 edge_size = 5
@@ -394,6 +395,11 @@ def main():
             min_down=500,
             max_horizontal_deviation=150, # 限制水平偏移不超过150像素，防止和下左/下右冲突
             callback=open_hkt_command_file
+        ),
+        # 新增：左键三击触发 Ctrl+C
+        MouseTripleClickTrigger(
+            max_interval=0.3, # 每次点击间隔不超过0.3秒
+            callback=send_ctrl_c
         ),
     ]
 
