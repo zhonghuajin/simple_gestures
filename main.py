@@ -390,8 +390,9 @@ def main():
         # 新增：双击后向下(>500)再向上(>=2*Down)
         DoubleClickDownUpTrigger(
             max_double_click_interval=0.4,
-            gesture_timeout=2.0,  # 动作幅度大，给2秒
+            gesture_timeout=2.0,
             min_down=500,
+            max_horizontal_deviation=150, # 限制水平偏移不超过150像素，防止和下左/下右冲突
             callback=open_hkt_command_file
         ),
     ]
