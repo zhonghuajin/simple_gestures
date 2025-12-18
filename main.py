@@ -25,6 +25,7 @@ from triggers import (
     DoubleClickDownLeftTrigger,
     DoubleClickLeftMoveLeftTrigger,
     DoubleClickLeftUpRightDownTrigger,
+    DoubleClickDownUpTrigger, # Added import
 )
 
 edge_size = 5
@@ -385,6 +386,13 @@ def main():
             gesture_timeout=1.2,
             min_left_move=1000,
             callback=send_home_key
+        ),
+        # 新增：双击后向下(>500)再向上(>=2*Down)
+        DoubleClickDownUpTrigger(
+            max_double_click_interval=0.4,
+            gesture_timeout=2.0,  # 动作幅度大，给2秒
+            min_down=500,
+            callback=open_hkt_command_file
         ),
     ]
 
