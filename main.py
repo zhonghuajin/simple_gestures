@@ -23,7 +23,7 @@ from triggers import (
     # DoubleClickDownUpLeftTrigger,
     DoubleClickDownRightTrigger,
     DoubleClickDownLeftTrigger,
-    DoubleClickLeftMoveLeftTrigger,
+    # DoubleClickLeftMoveLeftTrigger,
     DoubleClickLeftUpRightDownTrigger,
     DoubleClickDownUpTrigger, 
     MouseTripleClickTrigger, # Added import
@@ -382,12 +382,12 @@ def main():
             min_move=300,                   # 每个方向至少移动150像素
             callback=send_select_all_and_copy
         ),
-        DoubleClickLeftMoveLeftTrigger(
-            max_double_click_interval=0.4,
-            gesture_timeout=1.2,
-            min_left_move=1000,
-            callback=send_home_key
-        ),
+        # DoubleClickLeftMoveLeftTrigger(
+        #     max_double_click_interval=0.4,
+        #     gesture_timeout=1.2,
+        #     min_left_move=1000,
+        #     callback=send_home_key
+        # ),
         # 新增：双击后向下(>500)再向上(>=2*Down)
         DoubleClickDownUpTrigger(
             max_double_click_interval=0.4,
