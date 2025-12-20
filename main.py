@@ -7,6 +7,9 @@ from triggers_config import create_triggers
 
 CHECK_INTERVAL = 0.03
 
+def get_screen_size():
+    return pyautogui.size()
+
 def is_left_button_down():
     return win32api.GetAsyncKeyState(win32con.VK_LBUTTON) < 0
 
@@ -23,16 +26,19 @@ def main():
 
     try:
         while True:
-            x, y = get_mouse_position()
-            input_state = {
-                'mouse_x': x,
-                'mouse_y': y,
-                'right_button': is_right_button_down(),
-                'left_button': is_left_button_down(),
-            }
-            for trigger in triggers:
-                trigger.update(input_state)
-            time.sleep(CHECK_INTERVAL)
+                    x, y = get_mouse_position()
+                    screen_w, screen_h = get_screen_size()
+                    input_state = {
+                        'mouse_x': x,
+                        'mouse_y': y,
+                        'screen_width': screen_w,
+                        'screen_height': screen_h,
+                        'right_button': is_right_button_down(),
+                        'left_button': is_left_button_down(),
+                    }
+                    for trigger in triggers:
+                        trigger.update(input_state)
+                    time.sleep(CHECK_INTERVAL)
 
     except KeyboardInterrupt:
         print("\n程序已停止。")

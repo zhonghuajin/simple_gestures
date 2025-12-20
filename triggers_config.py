@@ -13,8 +13,9 @@ from triggers import (
     DoubleClickDownRightTrigger,
     DoubleClickDownLeftTrigger,
     DoubleClickLeftUpRightDownTrigger,
-    DoubleClickDownUpTrigger, 
+    DoubleClickDownUpTrigger,
     MouseTripleClickTrigger,
+    MouseEdgeUpDownUpTrigger,
 )
 
 from key_sender import (
@@ -42,6 +43,7 @@ from actions import (
 # 这些全局参数也可以集中放在一个 config.py 里，这里先简单写死
 CORNER_SIZE = 5
 EDGE_SIZE = 5
+
 
 def create_triggers():
     triggers = [
@@ -135,6 +137,12 @@ def create_triggers():
         MouseTripleClickTrigger(
             max_interval=0.3,
             callback=send_ctrl_c
+        ),
+
+        MouseEdgeUpDownUpTrigger(
+            edge_size=5,
+            max_time=2.0,
+            callback=send_ctrl_shift_backtick
         ),
     ]
 
