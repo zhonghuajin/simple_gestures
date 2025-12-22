@@ -186,3 +186,12 @@ def send_delete_key():
     time.sleep(0.03)
     release_key(0x2E)
     print(">>> 已执行 Delete 键")
+    
+def send_win_tab():
+    press_key(VK_LWIN)
+    time.sleep(0.05)
+    press_key(VK_TAB)
+    time.sleep(0.05)
+    release_key(VK_TAB)
+    release_key(VK_LWIN)
+    print(">>> 已执行 Win + Tab")    

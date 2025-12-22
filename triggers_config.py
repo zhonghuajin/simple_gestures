@@ -6,13 +6,15 @@ from triggers import (
     MouseDownRightOrLeftTrigger,
     MouseLeftUpDownUpTrigger,
     MouseTopEdgeZigzagTrigger,
-    MouseBottomEdgeZigzagTrigger,
+    # MouseBottomEdgeZigzagTrigger,
     MouseLeftBottomCornerTrigger,
+    MouseBottomRightCornerTrigger,
     MouseDiagonalToTopRightTrigger,
     MouseDownLeftTrigger,
     DoubleClickDownRightTrigger,
     DoubleClickDownLeftTrigger,
     DoubleClickLeftUpRightDownTrigger,
+    # DoubleClickLeftMoveLeftTrigger,
     DoubleClickDownUpTrigger,
     MouseTripleClickTrigger,
     MouseEdgeUpDownUpTrigger,
@@ -29,13 +31,14 @@ from key_sender import (
     send_alt_left,
     send_f5,
     send_win_key,
+    send_win_tab, 
     send_toggle_maximize_window,
     send_alt_f4_then_esc,
     send_select_all_and_copy,
 )
 from actions import (
     open_chrome,
-    open_temp_folder,
+    # open_temp_folder,
     open_hkt_command_file,
     # open_vscode,  # 如需启用相关双击手势，可在这里导入
 )
@@ -80,16 +83,18 @@ def create_triggers():
             callback_right=send_f5
         ),
 
-        MouseBottomEdgeZigzagTrigger(
-            edge_size=5,
-            min_zigzag_dist=200,
-            max_interval=1.2,
-            side_width_ratio=0.3,
-            callback_left=open_hkt_command_file,
-            callback_right=open_temp_folder
-        ),
+        # MouseBottomEdgeZigzagTrigger(
+        #     edge_size=5,
+        #     min_zigzag_dist=200,
+        #     max_interval=1.2,
+        #     side_width_ratio=0.3,
+        #     callback_left=open_hkt_command_file,
+        #     callback_right=open_temp_folder
+        # ),
 
         MouseLeftBottomCornerTrigger(CORNER_SIZE, send_win_key),
+        
+        MouseBottomRightCornerTrigger(CORNER_SIZE, send_win_tab),
 
         MouseDiagonalToTopRightTrigger(
             corner_size=10,
@@ -134,6 +139,13 @@ def create_triggers():
             callback=open_hkt_command_file
         ),
 
+        # DoubleClickLeftMoveLeftTrigger(
+        #     max_double_click_interval=0.45,   # 可根据需求调整
+        #     gesture_timeout=1.2,              # 可根据需求调整
+        #     min_left_move=1000,                # 向左最小移动距离
+        #     callback=open_temp_folder         # 触发后调用 open_temp_folder
+        # ),
+        
         MouseTripleClickTrigger(
             max_interval=0.3,
             callback=send_ctrl_c
