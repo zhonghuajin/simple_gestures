@@ -20,3 +20,5 @@ from .double_click_left_up_right_down_trigger import DoubleClickLeftUpRightDownT
 from .double_click_down_up_trigger import DoubleClickDownUpTrigger
 from .mouse_triple_click_trigger import MouseTripleClickTrigger
 from .mouse_edge_up_down_up_trigger import MouseEdgeUpDownUpTrigger
+from .click_up_edge_trigger import ClickUpEdgeTrigger
+from .click_up_down_shake_trigger import ClickUpDownShakeTrigger

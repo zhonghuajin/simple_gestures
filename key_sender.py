@@ -3,6 +3,7 @@ import ctypes
 import win32api
 import win32con
 import win32gui
+import pyautogui
 
 # === Windows 按键码 ===
 user32 = ctypes.WinDLL('user32', use_last_error=True)
@@ -19,6 +20,7 @@ KEYEVENTF_KEYUP = 0x0002
 VK_LWIN = 0x5B
 VK_A = 0x41
 VK_HOME = 0x24
+VK_END = 0x23  # 新增 End 键码
 
 def press_key(hexKeyCode):
     user32.keybd_event(hexKeyCode, 0, 0, 0)
@@ -37,6 +39,12 @@ def send_home_key():
     time.sleep(0.05)
     release_key(VK_HOME)
     print(">>> 已执行 Home 键")
+
+def send_end_key():
+    press_key(VK_END)
+    time.sleep(0.05)
+    release_key(VK_END)
+    print(">>> 已执行 End 键")
 
 def send_ctrl_shift_backtick():
     press_key(VK_CONTROL)
@@ -151,6 +159,9 @@ def send_alt_left():
     release_key(0x25)
     release_key(VK_MENU)
     print(">>> 已执行 Alt + ←（返回上一层）")
+    
+def foo():
+    pass
 
 def send_toggle_maximize_window():
     hwnd = win32gui.GetForegroundWindow()
@@ -194,4 +205,10 @@ def send_win_tab():
     time.sleep(0.05)
     release_key(VK_TAB)
     release_key(VK_LWIN)
-    print(">>> 已执行 Win + Tab")    
+    print(">>> 已执行 Win + Tab")
+    
+    
+def send_secret_string():
+    # 使用 pyautogui.write 可以自动处理大小写和特殊字符
+    pyautogui.write('zjhZHNzhj@1979')
+    print(">>> 已输入密码字符串: zjhZHNzhj@1979")    

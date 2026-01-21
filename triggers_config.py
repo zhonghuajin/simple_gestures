@@ -1,9 +1,9 @@
 from triggers import (
     MouseCornerTrigger,
     MouseLeftEdgeHorizontalTrigger,
-    MouseDownUpTrigger,
+    # MouseDownUpTrigger,
     BothButtonDownTrigger,
-    MouseDownRightOrLeftTrigger,
+    # MouseDownRightOrLeftTrigger,
     MouseLeftUpDownUpTrigger,
     MouseTopEdgeZigzagTrigger,
     # MouseBottomEdgeZigzagTrigger,
@@ -18,6 +18,8 @@ from triggers import (
     DoubleClickDownUpTrigger,
     MouseTripleClickTrigger,
     MouseEdgeUpDownUpTrigger,
+    ClickUpEdgeTrigger,
+    ClickUpDownShakeTrigger,
 )
 
 from key_sender import (
@@ -29,18 +31,22 @@ from key_sender import (
     send_alt_f4,
     send_ctrl_shift_backtick,
     send_alt_left,
+    foo,
     send_f5,
     send_win_key,
-    send_win_tab, 
+    send_win_tab,
     send_toggle_maximize_window,
     send_alt_f4_then_esc,
     send_select_all_and_copy,
+    send_home_key,
+    send_end_key,
+    send_secret_string,
 )
 from actions import (
     open_chrome,
     # open_temp_folder,
     open_hkt_command_file,
-    # open_vscode,  # 如需启用相关双击手势，可在这里导入
+    # open_vscode,
 )
 
 # 这些全局参数也可以集中放在一个 config.py 里，这里先简单写死
@@ -61,15 +67,8 @@ def create_triggers():
             direction='down', callback=send_ctrl_v
         ),
 
-        MouseDownUpTrigger(min_move=200, max_time=1.2, callback=open_chrome),
+        # MouseDownUpTrigger(min_move=200, max_time=1.2, callback=open_chrome),
         BothButtonDownTrigger(send_ctrl_t),
-
-        MouseDownRightOrLeftTrigger(
-            min_down=200,
-            min_side=200,
-            callback_right=send_ctrl_w,
-            callback_left=send_alt_f4,
-        ),
 
         MouseLeftUpDownUpTrigger(
             min_move=30, max_time=1.0, callback=send_ctrl_shift_backtick
@@ -79,21 +78,12 @@ def create_triggers():
             edge_size=2,
             min_move_dist=500,
             max_interval=1.2,
-            callback_left=send_ctrl_c,
+            callback_left=foo,
             callback_right=send_f5
         ),
 
-        # MouseBottomEdgeZigzagTrigger(
-        #     edge_size=5,
-        #     min_zigzag_dist=200,
-        #     max_interval=1.2,
-        #     side_width_ratio=0.3,
-        #     callback_left=open_hkt_command_file,
-        #     callback_right=open_temp_folder
-        # ),
-
         MouseLeftBottomCornerTrigger(CORNER_SIZE, send_win_key),
-        
+
         MouseBottomRightCornerTrigger(CORNER_SIZE, send_win_tab),
 
         MouseDiagonalToTopRightTrigger(
@@ -139,13 +129,6 @@ def create_triggers():
             callback=open_hkt_command_file
         ),
 
-        # DoubleClickLeftMoveLeftTrigger(
-        #     max_double_click_interval=0.45,   # 可根据需求调整
-        #     gesture_timeout=1.2,              # 可根据需求调整
-        #     min_left_move=1000,                # 向左最小移动距离
-        #     callback=open_temp_folder         # 触发后调用 open_temp_folder
-        # ),
-        
         MouseTripleClickTrigger(
             max_interval=0.3,
             callback=send_ctrl_c
@@ -156,6 +139,22 @@ def create_triggers():
             max_time=2.0,
             callback=send_ctrl_shift_backtick
         ),
+
+        ClickUpEdgeTrigger(
+            min_up_dist=200,
+            max_click_time=0.3,
+            max_gesture_time=2.0,
+            callback_left=send_home_key,
+            callback_right=send_end_key
+        ),
+
+        ClickUpDownShakeTrigger(
+            min_segment_dist=50,   # 每次上下移动至少50像素
+            required_shakes=7,     # 至少变向3次 (如 上-下-上)
+            max_gesture_time=2.0,  # 整个过程需在2秒内完成
+            callback=send_secret_string
+        ),
+
     ]
 
     return triggers
