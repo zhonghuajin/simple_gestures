@@ -23,3 +23,5 @@ from .mouse_edge_up_down_up_trigger import MouseEdgeUpDownUpTrigger
 from .click_up_edge_trigger import ClickUpEdgeTrigger
 from .click_up_down_shake_trigger import ClickUpDownShakeTrigger
 from .double_click_hold_trigger import DoubleClickHoldTrigger
+from .double_click_up_move_trigger import DoubleClickUpMoveTrigger
+
