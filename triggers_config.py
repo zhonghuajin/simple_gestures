@@ -20,6 +20,8 @@ from triggers import (
     MouseEdgeUpDownUpTrigger,
     ClickUpEdgeTrigger,
     ClickUpDownShakeTrigger,
+    # 新增导入
+    DoubleClickHoldTrigger,
 )
 
 from key_sender import (
@@ -41,6 +43,7 @@ from key_sender import (
     send_home_key,
     send_end_key,
     send_secret_string,
+    send_ctrl_c_then_right_click_then_esc
 )
 from actions import (
     open_chrome,
@@ -155,6 +158,13 @@ def create_triggers():
             callback=send_secret_string
         ),
 
+        # === 新增：双击后静止0.5秒执行 Ctrl+C ===
+        DoubleClickHoldTrigger(
+            max_double_click_interval=0.4, # 双击间隔判定
+            hold_duration=1,             # 静止时长
+            move_threshold=5,              # 允许的微小抖动像素
+            callback=send_ctrl_c_then_right_click_then_esc
+        ),
     ]
 
     return triggers

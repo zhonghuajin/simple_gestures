@@ -210,5 +210,20 @@ def send_win_tab():
     
 def send_secret_string():
     # 使用 pyautogui.write 可以自动处理大小写和特殊字符
-    pyautogui.write('zjhZHNzhj@1979')
-    print(">>> 已输入密码字符串: zjhZHNzhj@1979")    
+    pyautogui.write('zjhZHNzhj@19796')
+    print(">>> 已输入密码字符串: zjhZHNzhj@19796")    
+    
+def send_ctrl_c_then_right_click_then_esc():
+    # 1. Ctrl+C
+    send_ctrl_c()
+    time.sleep(0.2)
+    # 2. pyautogui 右键点击
+    pyautogui.click(button='right')
+    print(">>> 已执行右键点击")
+    # 3. 停留让菜单出现
+    time.sleep(0.2)
+    # 4. 按下 Esc 键关闭菜单
+    press_key(0x1B)  # VK_ESCAPE
+    time.sleep(0.05)
+    release_key(0x1B)
+    print(">>> 已执行 Esc 关闭右键菜单")
